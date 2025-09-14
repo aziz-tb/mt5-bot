@@ -34,8 +34,6 @@ done
 
 echo 'connected'
 
-python3 /headless/copier.py &
-
 echo 'starting webserver'
 
 wine uvicorn --host 0.0.0.0 --port 8080 --reload main:app

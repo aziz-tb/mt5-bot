@@ -37,11 +37,6 @@ wine /headless/python-3.7.4.exe /quiet InstallAllUsers=0 PrependPath=1 Include_t
 wine pip install MetaTrader5 pandas fastapi uvicorn email-validator &&\
 bash /headless/install_mt5.sh
 
-# minimal Python on Linux side for Telethon
-RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --no-cache-dir telethon python-dotenv
-
-COPY ./copier.py /headless/copier.py
 COPY ./pymt5.py /headless/pymt5.py
 COPY ./main.py /headless/main.py
 COPY ./entrypoint.sh /headless/entrypoint.sh
