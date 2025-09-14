@@ -24,7 +24,7 @@ apt-add-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ xenial main' &
 apt-get update &&\
 apt-get install --install-recommends -y winehq-staging
 RUN \
-wget https://www.python.org/ftp/python/3.7.4/python-3.7.4.exe &&\
+wget https://www.python.org/ftp/python/3.11.9/python-3.11.9-amd64.exe -O python-3.11.9.exe &&\
 wget https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe
 RUN \
 apt install -y xvfb
@@ -33,13 +33,9 @@ COPY ./install_mt5.sh /headless/install_mt5.sh
 RUN \
 nohup bash -c "Xvfb :1 -screen 0 800x600x16 &" &&\
 sleep 10 &&\
-wine /headless/python-3.7.4.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 &&\
-wine pip install MetaTrader5 pandas fastapi uvicorn email-validator &&\
+wine /headless/python-3.11.9.exe /quiet InstallAllUsers=0 PrependPath=1 Include_test=0 &&\
+wine pip install MetaTrader5 telethon python-dotenv pandas fastapi uvicorn email-validator certifi &&\
 bash /headless/install_mt5.sh
-
-# minimal Python on Linux side for Telethon
-RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
-RUN pip3 install --no-cache-dir telethon python-dotenv
 
 COPY ./copier.py /headless/copier.py
 COPY ./pymt5.py /headless/pymt5.py
